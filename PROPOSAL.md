@@ -1,4 +1,4 @@
-# File Destribution Operator
+# File Distribution Operator
 
 ## Motivation
 
