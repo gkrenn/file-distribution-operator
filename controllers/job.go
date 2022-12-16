@@ -9,6 +9,7 @@ import (
 
 	krenndevv1alpha1 "github.com/gkrenn/file-distribution-operator/api/v1alpha1"
 	"github.com/pkg/errors"
+	"go.uber.org/zap"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -21,6 +22,15 @@ const (
 
 	defaultFilePermissions = "644"
 )
+
+var jobLog *zap.SugaredLogger
+
+func init() {
+	// create new zap json logger
+	logger, _ := zap.NewProduction()
+	defer logger.Sync() // flushes buffer, if any
+	jobLog = logger.Sugar()
+}
 
 type DistributionJob struct {
 	client.Client
@@ -43,11 +53,11 @@ func NewDistributionJob(client client.Client, ctx context.Context, namespace str
 
 	// destination can be a directory or a file
 	if isStringDirectory(fileDistributionConfig.Spec.Destination) {
-		fmt.Println("destination is a directory")
+		jobLog.Info("destination is a directory")
 		hostPathDir = fileDistributionConfig.Spec.Destination
 		hostPathFileName = path.Base(fileDistributionConfig.Spec.FileName)
 	} else {
-		fmt.Println("destination is a file")
+		jobLog.Info("destination is a file")
 		hostPathDir = path.Dir(fileDistributionConfig.Spec.Destination)
 		hostPathFileName = path.Base(fileDistributionConfig.Spec.Destination)
 	}
@@ -137,11 +147,7 @@ func (distributionJob DistributionJob) BuildKubernetesJob(nodeName string) *batc
 }
 
 func isStringDirectory(path string) bool {
-	// check if path ends with a slash
-	if strings.HasSuffix(path, "/") {
-		return true
-	}
-	return false
+	return strings.HasSuffix(path, "/")
 }
 
 func (distributionJob DistributionJob) setupJobOnAllNodes() ([]corev1.Node, error) {
@@ -159,7 +165,7 @@ func (distributionJob DistributionJob) setupJobOnAllNodes() ([]corev1.Node, erro
 		if err != nil {
 			return nodelist.Items, errors.WithStack(err)
 		}
-		fmt.Println("created job for node: ", node.Name)
+		jobLog.Info("created job for node: ", node.Name)
 	}
 
 	return nodelist.Items, nil
@@ -194,7 +200,10 @@ func (distributionJob DistributionJob) waitForAllJobsToBeCompleted() error {
 		time.Sleep(10 * time.Second)
 	}
 
-	return fmt.Errorf("timeout while waiting for jobs to be completed")
+	err := fmt.Errorf("timeout while waiting for jobs to be completed")
+	jobLog.Error(err, err.Error())
+
+	return err
 }
 
 func (distributionJob DistributionJob) buildCommand() []string {

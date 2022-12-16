@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"time"
 
+	"go.uber.org/zap"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -33,6 +34,15 @@ import (
 const (
 	defaultRescheduleInterval = 5 * time.Minute
 )
+
+var reconcilerLog *zap.Logger
+
+func init() {
+	// create new zap json logger
+	logger, _ := zap.NewProduction()
+	defer logger.Sync() // flushes buffer, if any
+	reconcilerLog = logger
+}
 
 // FileDistributionConfigReconciler reconciles a FileDistributionConfig object
 type FileDistributionConfigReconciler struct {
@@ -60,14 +70,14 @@ func (r *FileDistributionConfigReconciler) Reconcile(ctx context.Context, req ct
 	if err != nil {
 		return ctrl.Result{}, err
 	}
-	fmt.Println("reconciling config: ", config.Name)
+	reconcilerLog.Info("reconciling config", zap.String("config name", config.Name))
 
 	// todo check if cr is in same namespace as operator
 
 	// todo ensure previous jobs run through => no jobs are left
 
 	// query all nodes and create job for each node
-	fmt.Println("creating jobs for all nodes...")
+	reconcilerLog.Info("creating jobs for all nodes...")
 
 	distributionJob := NewDistributionJob(r.Client, ctx, namespace, *config)
 	_, err = distributionJob.setupJobOnAllNodes()
@@ -76,13 +86,13 @@ func (r *FileDistributionConfigReconciler) Reconcile(ctx context.Context, req ct
 	}
 
 	// wait till jobs are done or timeout is reached
-	fmt.Println("waiting for all jobs to be completed...")
+	reconcilerLog.Info("waiting for all jobs to be completed...")
 	if err := distributionJob.waitForAllJobsToBeCompleted(); err != nil {
 		return ctrl.Result{}, err
 	}
 
 	// delete jobs
-	fmt.Println("deleting all jobs...")
+	reconcilerLog.Info("deleting all jobs...")
 	if err := distributionJob.deleteAllJobsInNamespace(); err != nil {
 		return ctrl.Result{}, fmt.Errorf("failed to delete all jobs: %w", err)
 	}
@@ -93,7 +103,7 @@ func (r *FileDistributionConfigReconciler) Reconcile(ctx context.Context, req ct
 		interval = defaultRescheduleInterval
 	} else {
 		interval = time.Duration(config.Spec.RescheduleInterval) * time.Minute
-		fmt.Printf("rescheduling in %v minutes \n", config.Spec.RescheduleInterval)
+		reconcilerLog.Sugar().Infof("rescheduling in %v minutes \n", config.Spec.RescheduleInterval)
 	}
 	return ctrl.Result{
 		RequeueAfter: interval,
