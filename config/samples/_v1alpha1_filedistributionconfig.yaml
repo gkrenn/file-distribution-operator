@@ -1,0 +1,30 @@
+apiVersion: krenn.dev/v1alpha1
+kind: FileDistributionConfig
+metadata:
+  labels:
+    app.kubernetes.io/name: filedistributionconfig
+    app.kubernetes.io/instance: filedistributionconfig-sample
+    app.kubernetes.io/part-of: fdo
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: fdo
+  name: filedistributionconfig-sample
+  namespace: filedistribution
+spec:
+  secretName: files
+  fileName: sample.txt
+  # destination: specify a directory by adding / at the end otherwise it will be treaded as file
+  destination: /test/sample2.txt
+  # filepermissions: will default to 644
+  filepermissions: "644"
+  # interval given in minutes, default 10
+  rescheduleInterval: 1
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: files
+  namespace: filedistribution
+data:
+  sample.txt: SGVsbG8gbmV3IFdvcmxkCg==

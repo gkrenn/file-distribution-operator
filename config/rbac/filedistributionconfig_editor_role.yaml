@@ -1,0 +1,31 @@
+# permissions for end users to edit filedistributionconfigs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: filedistributionconfig-editor-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: fdo
+    app.kubernetes.io/part-of: fdo
+    app.kubernetes.io/managed-by: kustomize
+  name: filedistributionconfig-editor-role
+rules:
+- apiGroups:
+  - krenn.dev
+  resources:
+  - filedistributionconfigs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - krenn.dev
+  resources:
+  - filedistributionconfigs/status
+  verbs:
+  - get

@@ -1,0 +1,20 @@
+# create simple pod that sleeps endlessly
+# use it to check if the file was copied to the pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simpledebuggingpod
+  namespace: filedistribution
+spec:
+  containers:
+  - name: simpledebuggingpod
+    image: busybox
+    command: ["sleep", "infinity"]
+    volumeMounts:
+    - name: hostpath
+      mountPath: /host
+  volumes:
+  - name: hostpath
+    hostPath:
+      path: /
+      type: DirectoryOrCreate
