@@ -10,7 +10,7 @@ config:
   namespace: filedistribution
   secretName: files
   fileName: sample.txt
-  destination: /test/test3/sample11.txt
+  destination: /test/sample2.txt
   filepermissions: "644"
   rescheduleInterval: 1
 
