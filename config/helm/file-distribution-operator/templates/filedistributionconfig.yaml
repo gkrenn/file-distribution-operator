@@ -1,0 +1,17 @@
+apiVersion: krenn.dev/v1alpha1
+kind: FileDistributionConfig
+metadata:
+  labels:
+    app.kubernetes.io/name: filedistributionconfig
+    app.kubernetes.io/instance: filedistributionconfig-sample
+  {{- if .Values.config.labels}}
+    {{- toYaml .Values.config.labels | nindent 4}}
+  {{- end}}
+  name: filedistributionconfig-sample
+  namespace: {{ .Values.config.namespace }}
+spec:
+  secretName: {{ .Values.config.secretName}}
+  fileName: {{ .Values.config.fileName }}
+  destination: {{ .Values.config.destination }}
+  filepermissions: {{ .Values.config.filepermissions | toYaml }}
+  rescheduleInterval: {{ .Values.config.rescheduleInterval }}
