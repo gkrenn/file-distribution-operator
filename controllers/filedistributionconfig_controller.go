@@ -103,7 +103,7 @@ func (r *FileDistributionConfigReconciler) Reconcile(ctx context.Context, req ct
 		interval = defaultRescheduleInterval
 	} else {
 		interval = time.Duration(config.Spec.RescheduleInterval) * time.Minute
-		reconcilerLog.Sugar().Infof("rescheduling in %v minutes \n", config.Spec.RescheduleInterval)
+		reconcilerLog.Sugar().Infof("rescheduling in %v minute(s)", config.Spec.RescheduleInterval)
 	}
 	return ctrl.Result{
 		RequeueAfter: interval,
