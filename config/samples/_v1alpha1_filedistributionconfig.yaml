@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/created-by: fdo
   name: filedistributionconfig-sample
-  namespace: filedistribution
+  namespace: fdo-system
 spec:
   secretName: files
   fileName: sample.txt
@@ -25,6 +25,6 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: files
-  namespace: filedistribution
+  namespace: fdo-system
 data:
   sample.txt: SGVsbG8gbmV3IFdvcmxkCg==
