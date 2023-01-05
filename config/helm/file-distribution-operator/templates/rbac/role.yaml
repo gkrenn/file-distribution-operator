@@ -56,14 +56,8 @@ rules:
     - update
     - watch
 - apiGroups:
-    - "batch"
+    - batch
   resources:
     - jobs
   verbs:
-    - create
-    - list
-    - get
-    - watch
-    - update
-    - delete
-    - patch
+    - '*'
