@@ -2,9 +2,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-installCRD: true
+installCRD: false
 
 config:
   namespace: fdo-system
   prefix: fdo-
-  image: 3108950301/fdo:tag
+  image: # operator image comes here
