@@ -2,17 +2,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-config:
-  labels:
-    app.kubernetes.io/part-of: fdo
-    app.kubernetes.io/managed-by: kustomize
-    app.kubernetes.io/created-by: fdo
-  namespace: filedistribution
-  secretName: files
-  fileName: sample.txt
-  destination: /test/sample2.txt
-  filepermissions: "644"
-  rescheduleInterval: 1
+installCRD: true
 
-secret:
-  sampletxt: SGVsbG8gd29ybGQhCg==
+config:
+  namespace: fdo-system
+  prefix: fdo-
+  image: 3108950301/fdo:tag

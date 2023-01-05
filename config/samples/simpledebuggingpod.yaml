@@ -4,7 +4,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: simpledebuggingpod
-  namespace: filedistribution
+  namespace: fdo-system
 spec:
   containers:
   - name: simpledebuggingpod

@@ -1,0 +1,69 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: {{ .Values.config.prefix }}manager-role
+rules:
+- apiGroups:
+  - krenn.dev
+  resources:
+  - filedistributionconfigs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - krenn.dev
+  resources:
+  - filedistributionconfigs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - krenn.dev
+  resources:
+  - filedistributionconfigs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+    - coordination.k8s.io
+  resources:
+    - leases
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+- apiGroups:
+    - ""
+  resources:
+    - nodes
+  verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+- apiGroups:
+    - "batch"
+  resources:
+    - jobs
+  verbs:
+    - create
+    - list
+    - get
+    - watch
+    - update
+    - delete
+    - patch

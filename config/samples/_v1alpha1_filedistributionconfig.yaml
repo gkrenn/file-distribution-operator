@@ -13,7 +13,7 @@ spec:
   secretName: files
   fileName: sample.txt
   # destination: specify a directory by adding / at the end otherwise it will be treaded as file
-  destination: /test/sample2.txt
+  destination: /tmp/sample2.txt
   # filepermissions: will default to 644
   filepermissions: "644"
   # interval given in minutes, default 10
