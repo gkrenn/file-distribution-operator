@@ -1,0 +1,38 @@
+name: Action that makes sure binaries and image can be built and pushed
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push request events but only for the master branch
+  push:
+    branches: [ main ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "continuous_integration"
+  continuous_integration:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Run tests
+        run: |
+          go fmt ./...
+          go vet ./...
+          go test -v ./...
+          
+      - name: Login to Dockerhub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        run: |
+          docker build . -t ${{secrets.DOCKERHUB_USERNAME}}/githubaction:test
+          docker image push ${{secrets.DOCKERHUB_USERNAME}}/githubaction:test
