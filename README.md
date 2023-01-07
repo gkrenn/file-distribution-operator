@@ -41,6 +41,27 @@ make docker-build docker-push IMG=<some-registry>/fdo:tag
 make deploy IMG=<some-registry>/fdo:tag
 ```
 
+### Check if installed correctly
+
+After installing the operator one can check if it works the following way:
+
+a.) Check the logs of the operator pod
+
+This can be done by running the following command:
+
+```sh
+kubectl logs -f -n fdo-system <name of the operator pod>
+```
+
+If the operator was correctly installed and deployed, the output should look similar to following screenshot:
+
+![](operator_logs.png)
+
+b.) Check nodes
+
+Another way of making sure that the operator is working properly, is to check whether the specified file is available in
+the nodes of the Kubernetes cluster. It depends on the cluster how one can connect to the nodes.
+
 ### Uninstall CRDs
 To delete the CRDs from the cluster:
 
@@ -54,9 +75,6 @@ UnDeploy the controller to the cluster:
 ```sh
 make undeploy
 ```
-
-## Contributing
-// TODO(user): Add detailed information on how you would like others to contribute to this project
 
 ### How it works
 This project aims to follow the Kubernetes [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
