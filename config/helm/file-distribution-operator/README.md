@@ -37,7 +37,7 @@ If the helm chart was applied through the rendered manifest the uninstallation l
 kubectl delete -f manifests.yaml
 ```
 
-It the helm chart was installed through the ``ìnstall`` command the uninstallation looks as follows:
+If the helm chart was installed through the ``ìnstall`` command the uninstallation looks as follows:
 
 ```shell
 helm uninstall <name of the release> --namespace fdo-system
