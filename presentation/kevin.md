@@ -1,4 +1,6 @@
-# Kevin does something here 
+# Continous Integration
+With Github Actions
 
-- sdlkfj 
-- sldfk
+- Testing
+- Getting credentials
+- Building and deploying docker image
