@@ -24,3 +24,6 @@ Dockerfile.cross
 *.swp
 *.swo
 *~
+
+# Temporary Build Files
+presentation/node_modules
