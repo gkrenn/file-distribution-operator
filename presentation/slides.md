@@ -10,9 +10,11 @@ class: 'text-center'
 highlighter: shiki
 ---
 
-# File Distribution operator
+# File Distribution Operator
 
-fslkdj
+Krasniqi Albian, Krenn Gabriel, Pepryk Kevin
+<br>
+WS2022/23
 
 ---
 src: gabriel.md
