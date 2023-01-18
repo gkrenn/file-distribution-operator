@@ -14,7 +14,7 @@
 
 # Values file
 
-- plain YAML files
+- plain YAML file
 - values inside the file can be accessed as an attribute <br>
 <br>
 <img src="/val_access.png" class="" />
@@ -23,7 +23,8 @@
 <img src="/values.png" class="" />
 
 ---
-
+layout: cover
+---
 # Demo
 
 ``` bash
