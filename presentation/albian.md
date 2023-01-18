@@ -2,7 +2,7 @@
 
 - Package manager for K8s
 - Automates maintenance of YAML manifests
-- Has special directory
+- Special directory structure
 ---
 
 # Structure of helm charts
