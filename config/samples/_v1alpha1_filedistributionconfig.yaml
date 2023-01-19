@@ -13,11 +13,11 @@ spec:
   secretName: files
   fileName: sample.txt
   # destination: specify a directory by adding / at the end otherwise it will be treaded as file
-  destination: /tmp/sample2.txt
+  destination: /tmp/sample3.txt
   # filepermissions: will default to 644
   filepermissions: "644"
   # interval given in minutes, default 10
-  rescheduleInterval: 1
+  rescheduleInterval: 10
 
 ---
 
@@ -27,4 +27,5 @@ metadata:
   name: files
   namespace: fdo-system
 data:
-  sample.txt: SGVsbG8gbmV3IFdvcmxkCg==
+  sample.txt: U29tZXRoaW5nCg==
+  sample2.txt: b3RoZXJ3aXMK

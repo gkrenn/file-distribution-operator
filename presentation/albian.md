@@ -25,7 +25,7 @@
 ---
 layout: cover
 ---
-# Demo
+# Usage
 
 ``` bash
 helm template config/helm/file-distribution-operator/ > manifests.yaml

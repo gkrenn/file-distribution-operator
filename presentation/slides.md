@@ -27,3 +27,20 @@ src: albian.md
 ---
 src: kevin.md
 ---
+
+---
+layout: cover
+---
+
+# Codebase & Demo
+
+--- 
+
+# Lessons learned 
+
+- go kubernetes libraries are not always as sophisticated as it seems
+- it's really important to think about
+  - not including custom resources in helm 
+  - what fields should be really included in a CRD
+- developing operators makes fun
+- RBAC rules are important
